@@ -1,8 +1,6 @@
 import os
 import psycopg2
 from dotenv import load_dotenv
-
-
 load_dotenv()
 
 
@@ -13,21 +11,44 @@ class Banco:
     except Exception as e:
         print(f"Erro ao conectar ao banco: {e}")
 
+    def execute(self, sql):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(sql)
+            return
+        except Exception as e:
+            print(f"Erro com o execute : {e}")
+
+    def fetch(self, sql):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(sql)
+                    dados = cursor.fetchall()
+            return dados
+        except Exception as e:
+            print(f"Erro com o fetch : {e}")
+
     def get_lista_de_plantas(self):
-        with self.connection as connection:
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT id,plant_id,temperature,humidity,light,ph,last_time_watered FROM plant_info")
-                dados = cursor.fetchall()
+        dados = self.fetch("SELECT id,plant_id,temperature,humidity,light,ph,last_time_watered FROM plant_info")
+        dados2 = self.fetch("SELECT id,plant_type FROM plant ")
+        ids_com_tipos = {}
+        for dado in dados2:
+            item = {dado[0]: dado[1]}
+            ids_com_tipos.update(item)
         lista_processada = {}
         index = 0
         for dado in dados:
             item = {"id": dado[0],
                     "plant_id": int(dado[1]),
+                    "plant_type": ids_com_tipos.get(dado[1]),
                     "temperatura": float(dado[2]),
                     "humidadade": float(dado[3]),
                     "luz": float(dado[4]),
                     "ph": float(dado[5]),
                     "ultima_vez_regada": dado[6]}
+            print(item)
             lista_processada.update({index: item})
             index += 1
         return lista_processada
