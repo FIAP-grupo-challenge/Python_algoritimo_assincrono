@@ -35,13 +35,22 @@ class Banco:
             return "Erro no fetch"
 
     def get_lista_de_plantas(self):
-        dados = self.fetch("SELECT id,plant_id,temperature,humidity,light,ph,last_time_watered,created_at "
-                           "FROM plant_info")
+        dados = []
         dados2 = self.fetch("SELECT id,plant_type FROM plant ")
         ids_com_tipos = {}
         for dado in dados2:
             item = {dado[0]: dado[1]}
             ids_com_tipos.update(item)
+            dados.append(self.fetch("SELECT DISTINCT "
+                                    "id,"
+                                    "plant_id,"
+                                    "temperature,"
+                                    "humidity,"
+                                    "light,"
+                                    "ph,"
+                                    "last_time_watered,"
+                                    "created_at "
+                                    f"FROM plant_info WHERE plant_id = {dado[0]} ORDER BY created_at DESC LIMIT 1")[0])
         lista_processada = {}
         index = 0
         for dado in dados:
@@ -49,15 +58,22 @@ class Banco:
                     "id_planta": int(dado[1]),
                     "tipo_planta": ids_com_tipos.get(dado[1]),
                     "temperatura": float(dado[2]),
-                    "humidadade": float(dado[3]),
+                    "umidade": float(dado[3]),
                     "luz": float(dado[4]),
                     "ph": float(dado[5]),
                     "ultima_vez_regada": self.converter_datetime(dado[6]),
                     "Data_do_registro": self.converter_datetime(dado[7])}
-            print(item)
+
             lista_processada.update({index: item})
             index += 1
         return lista_processada
+
+    def update_plant_status(self, plant_id, status):
+        self.execute(f"UPDATE plant SET plant_status = '{status}' WHERE id = {plant_id}")
+
+    def update_plant_warnings(self, plant_id, warnings):
+        self.execute(f"UPDATE plant SET warning_level = {warnings} WHERE id = {plant_id}")
+
 
     @staticmethod
     def converter_datetime(dt):
@@ -65,6 +81,3 @@ class Banco:
         tempo_legivel = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(timestamp))
         return tempo_legivel
 
-
-banco = Banco()
-print(banco.get_lista_de_plantas())
