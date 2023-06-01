@@ -36,7 +36,7 @@ class Banco:
 
     def get_lista_de_plantas(self):
         dados = []
-        dados2 = self.fetch("SELECT id,plant_type FROM plant ")
+        dados2 = self.fetch("SELECT id,plant_type FROM plant ORDER BY id ")
         ids_com_tipos = {}
         for dado in dados2:
             item = {dado[0]: dado[1]}

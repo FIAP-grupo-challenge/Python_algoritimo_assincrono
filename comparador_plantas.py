@@ -1,11 +1,16 @@
+from dicionarios import dict_mestre
+
+
 class ComparadorPlantas:
 
-    def comparar_universal(self, planta_dict,comparacao_dict):
+    def comparar_universal(self, planta_dict):
+
         temperatura, umidade = planta_dict.get("temperatura"), planta_dict.get("umidade")
         luz, ph = planta_dict.get("luz"), planta_dict.get("ph")
         warnings = 0
         status = ""
-
+        tipo_planta = planta_dict.get("tipo_planta")
+        comparacao_dict = dict_mestre[tipo_planta]
         # comparador status temperatura
         if comparacao_dict["temperatura"]["neutro"]["comp2"] is None:
             if comparacao_dict["temperatura"]["favoravel"][0] <= temperatura <= comparacao_dict["temperatura"]["favoravel"][1]:
