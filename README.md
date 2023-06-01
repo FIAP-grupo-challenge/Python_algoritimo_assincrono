@@ -11,7 +11,8 @@
 
 <div>
 <p>Este Algoritmo Assincrono foi desenvolvido para tirar a carga de
-processamentos de dados da <a>API</a> deixando assim seu response time mais rapido <br></p>
+processamentos de dados da <a>API</a> deixando assim seu response time mais rapido <br><br>
+Deve ser usado em conjunto com a <a href="https://github.com/FIAP-grupo-challenge/Python_GS">API</a></p>
 <p>Areas que o Algoritmo Assincrono afeta: <br>
 * Banco de dados <br>
 </p>
