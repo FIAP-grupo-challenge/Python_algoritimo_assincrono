@@ -61,6 +61,7 @@ Lentilha, Cenoura, Beterraba, Rabanete) São os inclusos atualmente neste algori
 
 <div>
 <p>
+Para uma documentação mais completa do Banco visite o respositorio <a href="https://github.com/FIAP-grupo-challenge/Banco_de_dados_GS">Banco de Dados</a></A><br><br>
 O banco de dados escolhido para esta aplicação foi <a href="https://www.postgresql.org">PostgreSQL</a><br><br>
 Motivos desta escolha: <br><br>
 * Maturidade e estabilidade: O PostgreSQL tem uma história de desenvolvimento longa e bem estabelecida, remontando a mais de 30 anos. Ele é conhecido por sua confiabilidade, robustez e estabilidade, sendo amplamente utilizado em ambientes de produção exigentes.<br>
