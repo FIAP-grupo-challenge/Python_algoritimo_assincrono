@@ -41,16 +41,20 @@ class Banco:
         for dado in dados2:
             item = {dado[0]: dado[1]}
             ids_com_tipos.update(item)
-            dados.append(self.fetch("SELECT DISTINCT "
-                                    "id,"
-                                    "plant_id,"
-                                    "temperature,"
-                                    "humidity,"
-                                    "light,"
-                                    "ph,"
-                                    "last_time_watered,"
-                                    "created_at "
-                                    f"FROM plant_info WHERE plant_id = {dado[0]} ORDER BY created_at DESC LIMIT 1")[0])
+            try:
+                response = self.fetch("SELECT DISTINCT "
+                                        "id,"
+                                        "plant_id,"
+                                        "temperature,"
+                                        "humidity,"
+                                        "light,"
+                                        "ph,"
+                                        "last_time_watered,"
+                                        "created_at "
+                                        f"FROM plant_info WHERE plant_id = {dado[0]} ORDER BY created_at DESC LIMIT 1")[0]
+                dados.append(response)
+            except Exception as e:
+                print(f"planta {dado[0]} sem dados de status")
         lista_processada = {}
         index = 0
         for dado in dados:
